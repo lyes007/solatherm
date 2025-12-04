@@ -1,0 +1,890 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Perfecto Calligraphy Font */
+@font-face {
+  font-family: 'Perfecto Calligraphy';
+  src: url('/fonts/PerfectoCalligraphy-Italic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Hero Section Styles */
+.hero-heading {
+  font-family: 'Perfecto Calligraphy', serif;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.6);
+  line-height: 1.1;
+}
+
+.hero-heading span {
+  font-weight: 400;
+}
+
+.hero-subheading {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  line-height: 1.6;
+}
+
+/* Hero Button Glass Effect */
+.hero-button-glass {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  min-width: 100px;
+}
+
+.hero-button-glass-filter,
+.hero-button-glass-overlay,
+.hero-button-glass-specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.hero-button-glass-filter {
+  z-index: 1;
+  backdrop-filter: blur(8px);
+  filter: url(#glass-distortion) saturate(120%) brightness(1.1);
+}
+
+.hero-button-glass-overlay {
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero-button-glass-specular {
+  z-index: 3;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.hero-button-primary {
+  color: white;
+}
+
+.hero-button-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(131, 182, 25, 0.4);
+}
+
+.hero-button-primary .hero-button-glass-overlay {
+  background: rgba(131, 182, 25, 0.3);
+  border-color: rgba(131, 182, 25, 0.5);
+}
+
+.hero-button-primary:hover .hero-button-glass-overlay {
+  background: rgba(131, 182, 25, 0.4);
+  border-color: rgba(131, 182, 25, 0.6);
+}
+
+.hero-button-secondary {
+  color: white;
+}
+
+.hero-button-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+}
+
+.hero-button-secondary:hover .hero-button-glass-overlay {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Bento Grid Styles */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, minmax(150px, auto));
+  gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.bento-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: transparent;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.bento-card-glass-filter,
+.bento-card-glass-overlay,
+.bento-card-glass-specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.bento-card-glass-filter {
+  z-index: 1;
+  backdrop-filter: blur(8px);
+  filter: url(#glass-distortion) saturate(120%) brightness(1.1);
+}
+
+.bento-card-glass-overlay {
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bento-card-glass-specular {
+  z-index: 3;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.bento-card-content {
+  position: relative;
+  z-index: 4;
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bento Card Sizes */
+.bento-card-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.bento-card-medium-vertical {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.bento-card-medium-horizontal {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.bento-card-small {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+/* Responsive Bento Grid */
+@media (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, minmax(120px, auto));
+    gap: 12px;
+  }
+
+  .bento-card-large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .bento-card-medium-vertical {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  .bento-card-medium-horizontal {
+    grid-column: span 3;
+    grid-row: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+
+  .bento-card-large,
+  .bento-card-medium-vertical,
+  .bento-card-medium-horizontal,
+  .bento-card-small {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .bento-card-content {
+    padding: 20px;
+  }
+}
+
+/* Service Card Styles */
+.service-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 320px;
+}
+
+.service-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 24px 80px rgba(131, 182, 25, 0.2);
+}
+
+.service-card-glass-filter,
+.service-card-glass-overlay,
+.service-card-glass-specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.service-card-glass-filter {
+  z-index: 1;
+  backdrop-filter: blur(4px);
+}
+
+.service-card-glass-overlay {
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.service-card-glass-specular {
+  z-index: 3;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.service-card-content {
+  position: relative;
+  z-index: 4;
+  padding: 40px 36px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Service Image Vignette Effect */
+.service-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.service-image-wrapper img {
+  filter: brightness(0.65) contrast(1.2);
+  transition: filter 0.3s ease;
+  transform: scale(1.05);
+}
+
+.service-image-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 15%,
+    rgba(0, 0, 0, 0.6) 35%,
+    rgba(0, 0, 0, 0.85) 55%,
+    rgba(0, 0, 0, 0.95) 75%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  pointer-events: none;
+  border-radius: 8px;
+}
+
+.service-image-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: black;
+  z-index: -1;
+  border-radius: 8px;
+}
+
+.service-card:hover .service-image-wrapper img {
+  filter: brightness(0.75) contrast(1.25);
+}
+
+/* Testimonial Card Styles */
+.testimonial-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 280px;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.testimonial-card-glass-filter,
+.testimonial-card-glass-overlay,
+.testimonial-card-glass-specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.testimonial-card-glass-filter {
+  z-index: 1;
+  backdrop-filter: blur(4px);
+}
+
+.testimonial-card-glass-overlay {
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.testimonial-card-glass-specular {
+  z-index: 3;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.testimonial-card-content {
+  position: relative;
+  z-index: 4;
+  padding: 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contact Glass Card Styles */
+.contact-glass-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.contact-glass-filter,
+.contact-glass-overlay,
+.contact-glass-specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.contact-glass-filter {
+  z-index: 1;
+  backdrop-filter: blur(8px);
+  filter: url(#glass-distortion) saturate(120%) brightness(1.1);
+}
+
+.contact-glass-overlay {
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contact-glass-specular {
+  z-index: 3;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.contact-glass-content {
+  position: relative;
+  z-index: 4;
+  padding: 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contact Item Glass Styles */
+.contact-item-glass {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  display: block;
+  text-decoration: none;
+}
+
+.contact-item-glass:hover {
+  transform: translateX(4px);
+}
+
+.contact-item-glass-filter,
+.contact-item-glass-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.contact-item-glass-filter {
+  z-index: 1;
+  backdrop-filter: blur(4px);
+}
+
+.contact-item-glass-overlay {
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background 0.3s ease;
+}
+
+.contact-item-glass:hover .contact-item-glass-overlay {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.contact-item-content {
+  position: relative;
+  z-index: 3;
+  padding: 16px 20px;
+}
+
+/* Contact CTA Button Glass */
+.contact-cta-button {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  color: white;
+}
+
+.contact-cta-glass-filter,
+.contact-cta-glass-overlay,
+.contact-cta-glass-specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.contact-cta-glass-filter {
+  z-index: 1;
+  backdrop-filter: blur(8px);
+  filter: url(#glass-distortion) saturate(120%) brightness(1.1);
+}
+
+.contact-cta-glass-overlay {
+  z-index: 2;
+  background: rgba(131, 182, 25, 0.4);
+  border: 1px solid rgba(131, 182, 25, 0.5);
+  transition: all 0.3s ease;
+}
+
+.contact-cta-glass-specular {
+  z-index: 3;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.contact-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(131, 182, 25, 0.4);
+}
+
+.contact-cta-button:hover .contact-cta-glass-overlay {
+  background: rgba(131, 182, 25, 0.5);
+  border-color: rgba(131, 182, 25, 0.6);
+}
+
+/* Glass Navigation Styles */
+.glass-nav {
+  --bg-color: rgba(255, 255, 255, 0.25);
+  --highlight: rgba(255, 255, 255, 0.75);
+  --text: #ffffff;
+
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 1400px;
+  border-radius: 12px;
+  overflow: visible;
+  background: transparent;
+  z-index: 1000;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-filter,
+.glass-overlay,
+.glass-specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.glass-filter {
+  z-index: 1;
+  backdrop-filter: blur(4px);
+  filter: url(#glass-distortion) saturate(120%) brightness(1.15);
+}
+
+.glass-overlay {
+  z-index: 2;
+  background: var(--bg-color);
+}
+
+.glass-specular {
+  z-index: 3;
+  box-shadow: inset 1px 1px 1px var(--highlight);
+}
+
+.glass-content {
+  position: relative;
+  z-index: 4;
+  padding: 12px 24px;
+  overflow: visible;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none !important;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 1024px) {
+  .nav-list {
+    display: flex !important;
+  }
+}
+
+.nav-item {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-item.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.cta-button {
+  background: rgba(131, 182, 25, 0.9);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  margin-left: 16px;
+  backdrop-filter: blur(4px);
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .cta-button {
+    display: block;
+  }
+}
+
+.cta-button:hover {
+  background: rgba(131, 182, 25, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(131, 182, 25, 0.4);
+}
+
+/* Mobile Menu Button */
+.mobile-menu-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  z-index: 1001;
+}
+
+@media (max-width: 1023px) {
+  .mobile-menu-button {
+    display: flex;
+  }
+}
+
+.mobile-menu-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 26px;
+  height: 20px;
+  position: relative;
+}
+
+.hamburger span {
+  display: block;
+  height: 2.5px;
+  width: 100%;
+  background: var(--text);
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-origin: center;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Mobile Dropdown Menu */
+.mobile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: transparent;
+  z-index: 1000;
+  animation: slideDown 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-dropdown-glass-filter,
+.mobile-dropdown-glass-overlay,
+.mobile-dropdown-glass-specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.mobile-dropdown-glass-filter {
+  z-index: 1;
+  backdrop-filter: blur(4px);
+  filter: url(#glass-distortion) saturate(120%) brightness(1.15);
+}
+
+.mobile-dropdown-glass-overlay {
+  z-index: 2;
+  background: var(--bg-color);
+}
+
+.mobile-dropdown-glass-specular {
+  z-index: 3;
+  box-shadow: inset 1px 1px 1px var(--highlight);
+}
+
+.mobile-dropdown-content {
+  position: relative;
+  z-index: 4;
+  padding: 16px;
+}
+
+.mobile-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-nav-list li {
+  opacity: 0;
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-nav-item {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: block;
+  text-align: center;
+}
+
+.mobile-nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-item.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: rgba(131, 182, 25, 1);
+}
+
+.mobile-cta-button {
+  width: 100%;
+  background: rgba(131, 182, 25, 0.9);
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 12px;
+  backdrop-filter: blur(4px);
+}
+
+.mobile-cta-button:hover {
+  background: rgba(131, 182, 25, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(131, 182, 25, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .glass-nav {
+    top: 10px;
+    width: calc(100% - 20px);
+  }
+
+  .glass-content {
+    padding: 10px 16px;
+  }
+
+  .nav-list {
+    gap: 4px;
+  }
+
+  .nav-item {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .cta-button {
+    font-size: 12px;
+    padding: 8px 16px;
+    margin-left: 8px;
+  }
+}
+
+/* Mobile Dropdown Responsive */
+@media (max-width: 640px) {
+  .mobile-dropdown {
+    top: calc(100% + 8px);
+  }
+
+  .mobile-dropdown-content {
+    padding: 12px;
+  }
+
+  .mobile-nav-item {
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+
+  .mobile-cta-button {
+    font-size: 15px;
+    padding: 10px 16px;
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .glass-nav {
+    --bg-color: rgba(0, 0, 0, 0.25);
+    --highlight: rgba(255, 255, 255, 0.15);
+  }
+}
+
