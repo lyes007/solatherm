@@ -14,45 +14,60 @@ export default function Hero() {
     const video = videoRef.current
     if (!video) return
 
-    const handleCanPlay = () => {
-      setVideoLoaded(true)
-      setIsImageVisible(false)
-      setShowVideo(true)
-      video.play().catch((error) => {
-        console.error('Error playing video:', error)
-        setIsImageVisible(true)
-        setShowVideo(false)
+    // Optimize video for performance
+    video.setAttribute('playsinline', '')
+    video.setAttribute('webkit-playsinline', '')
+    video.setAttribute('x5-playsinline', '')
+
+    const handleLoadedData = () => {
+      // Use requestAnimationFrame for smoother transition
+      requestAnimationFrame(() => {
+        setVideoLoaded(true)
+        setIsImageVisible(false)
+        setShowVideo(true)
+        video.play().catch((error) => {
+          console.error('Error playing video:', error)
+          setIsImageVisible(true)
+          setShowVideo(false)
+        })
       })
     }
 
     const handleEnded = () => {
-      setShowVideo(false)
-      setIsImageVisible(true)
+      requestAnimationFrame(() => {
+        setShowVideo(false)
+        setIsImageVisible(true)
+      })
       
       if (imageTimeoutRef.current) {
         clearTimeout(imageTimeoutRef.current)
       }
       
       imageTimeoutRef.current = setTimeout(() => {
-        setIsImageVisible(false)
-        setShowVideo(true)
-        if (video) {
-          video.currentTime = 0
-          video.play().catch((error) => {
-            console.error('Error playing video:', error)
-            setIsImageVisible(true)
-            setShowVideo(false)
-          })
-        }
+        requestAnimationFrame(() => {
+          setIsImageVisible(false)
+          setShowVideo(true)
+          if (video) {
+            video.currentTime = 0
+            video.play().catch((error) => {
+              console.error('Error playing video:', error)
+              setIsImageVisible(true)
+              setShowVideo(false)
+            })
+          }
+        })
       }, 5000)
     }
 
-    video.addEventListener('canplay', handleCanPlay)
+    // Use loadeddata instead of canplay for faster initial load
+    video.addEventListener('loadeddata', handleLoadedData, { once: true })
     video.addEventListener('ended', handleEnded)
+    
+    // Start loading the video
     video.load()
 
     return () => {
-      video.removeEventListener('canplay', handleCanPlay)
+      video.removeEventListener('loadeddata', handleLoadedData)
       video.removeEventListener('ended', handleEnded)
       if (imageTimeoutRef.current) {
         clearTimeout(imageTimeoutRef.current)
@@ -80,7 +95,7 @@ export default function Hero() {
 
       {/* Video Background */}
       <div
-        className={`absolute inset-0 ${
+        className={`absolute inset-0 video-container ${
           showVideo && videoLoaded ? 'opacity-100 z-10' : 'opacity-0 z-0'
         }`}
       >
@@ -89,7 +104,10 @@ export default function Hero() {
           className="w-full h-full object-cover"
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
+          loop={false}
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
         >
           <source src="/VIDEO BG.mp4" type="video/mp4" />
         </video>
